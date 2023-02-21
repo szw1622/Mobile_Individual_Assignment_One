@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.ActivityNotFoundException
+import android.content.pm.ActivityInfo
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
 
         submitButton = findViewById(R.id.submitDataButton)
         photoButton = findViewById(R.id.capturePhotoButton)
@@ -128,5 +131,17 @@ class MainActivity : AppCompatActivity() {
         outState.putString(STATE_MIDDLE_NAME, middleName)
         outState.putString(STATE_LAST_NAME, lastName)
         outState.putParcelable(STATE_THUMBNAIL, thumbnail)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        firstName = savedInstanceState.getString(STATE_FIRST_NAME)
+        middleName = savedInstanceState.getString(STATE_MIDDLE_NAME)
+        lastName = savedInstanceState.getString(STATE_LAST_NAME)
+        thumbnail = savedInstanceState.getParcelable(STATE_THUMBNAIL)
+        firstNameEditText.setText(firstName)
+        middleNameEditText.setText(middleName)
+        lastNameEditText.setText(lastName)
+        thumbnailImageView.setImageBitmap(thumbnail)
     }
 }
